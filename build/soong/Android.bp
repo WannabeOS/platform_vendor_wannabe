@@ -2,7 +2,7 @@
 
 bootstrap_go_package {
     name: "soong-arrow-generator",
-    pkgPath: "arrow/soong/generator",
+    pkgPath: "wannabe/soong/generator",
     deps: [
         "blueprint",
         "blueprint-pathtools",
