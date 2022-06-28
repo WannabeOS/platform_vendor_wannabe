@@ -13,9 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-WANNABE_MOD_VERSION = v12.1
+ANDROID_VERSION = v12.1
+WANNABEVERSION = v1.0
 WANNABE_BUILD_TYPE := UNOFFICIAL
 WANNABE_BUILD_ZIP_TYPE := VANILLA
+WANNABEVERNAME := emptiness
+
+WANNABE_DATE_YEAR := $(shell date -u +%Y)
+WANNABE_DATE_MONTH := $(shell date -u +%m)
+WANNABE_DATE_DAY := $(shell date -u +%d)
+WANNABE_DATE_HOUR := $(shell date -u +%H)
+WANNABE_DATE_MINUTE := $(shell date -u +%M)
+WANNABE_BUILD_DATE := $(WANNABE_DATE_YEAR)$(WANNABE_DATE_MONTH)$(WANNABE_DATE_DAY)-$(WANNABE_DATE_HOUR)$(WANNABE_DATE_MINUTE)
+TARGET_PRODUCT_SHORT := $(subst wannabe_,,$(WANNABE_BUILD))
 
 ifeq ($(WANNABE_BETA),true)
     WANNABE_BUILD_TYPE := BETA
@@ -44,6 +54,11 @@ PRODUCT_PACKAGES += \
     endif
 endif
 
+ifeq ($(WANNABE_ALPHA), true)
+      IS_ALPHA=true
+      WANNABE_BUILD_TYPE := ALPHA
+    endif
+
 ifeq ($(WANNABE_COMMUNITY), true)
    LIST = $(shell cat infrastructure/devices/wannabe-community.devices | awk '$$1 != "#" { print $$2 }')
     ifeq ($(filter $(CURRENT_DEVICE), $(LIST)), $(CURRENT_DEVICE))
@@ -56,15 +71,20 @@ ifeq ($(WANNABE_COMMUNITY), true)
     endif
 endif
 
-WANNABE_VERSION := Wannabe-$(WANNABE_MOD_VERSION)-$(CURRENT_DEVICE)-$(WANNABE_BUILD_TYPE)-$(shell date -u +%Y%m%d)-$(WANNABE_BUILD_ZIP_TYPE)
+WANNABE_VERSION := $(WANNABEVERSION)-$(WANNABE_BUILD)-$(WANNABE_BUILD_DATE)-$(WANNABE_BUILD_TYPE)
+WANNABE_DISPLAY_VERSION := $(WANNABEVERSION)-$(WANNABEVERNAME)
+WANNABE_MOD_VERSION := $(ANDROID_VERSION)-$(WANNABEVERSION)-$(WANNABEVERNAME)
+WANNABE_DISPLAY_BUILDTYPE := $(WANNABE_BUILD_TYPE)
+WANNABE_FINGERPRINT := WannabeOS/$(ANDROID_VERSION)/$(TARGET_PRODUCT_SHORT)/$(WANNABE_BUILD_DATE)
 
+# Wannabe System Version
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-  ro.wannabe.version=$(WANNABE_VERSION) \
-  ro.wannabe.releasetype=$(WANNABE_BUILD_TYPE) \
-  ro.wannabe.ziptype=$(WANNABE_BUILD_ZIP_TYPE) \
-  ro.modversion=$(WANNABE_MOD_VERSION)
-
-WANNABE_DISPLAY_VERSION := Wannabe-$(WANNABE_MOD_VERSION)-$(WANNABE_BUILD_TYPE)
-
-PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-  ro.wannabe.display.version=$(WANNABE_DISPLAY_VERSION)
+  ro.WANNABE.version=$(WANNABE_DISPLAY_VERSION) \
+  ro.WANNABE.build.status=$(WANNABE_BUILD_TYPE) \
+  ro.modversion=$(ANDROID_VERSION) \
+  ro.WANNABE.build.date=$(WANNABE_BUILD_DATE) \
+  ro.WANNABE.buildtype=$(WANNABE_BUILD_TYPE) \
+  ro.WANNABE.fingerprint=$(WANNABE_FINGERPRINT) \
+  ro.WANNABE.device=$(WANNABE_BUILD) \
+  org.WANNABE.version=$(WANNABEVERSION) \
+  ro.WANNABE.maintainer=$(WANNABE_MAINTAINER) 

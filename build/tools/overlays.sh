@@ -3,8 +3,8 @@
 
 source $ANDROID_BUILD_TOP/build/envsetup.sh
 cur_dir=`pwd`
-flashable_zip_template="$ANDROID_BUILD_TOP/vendor/arrow/build/tools/overlays_zip_template"
-overlays_path_top="$ANDROID_BUILD_TOP/vendor/arrow/overlay/themes/"
+flashable_zip_template="$ANDROID_BUILD_TOP/vendor/wannabe/build/tools/overlays_zip_template"
+overlays_path_top="$ANDROID_BUILD_TOP/vendor/wannabe/overlay/themes/"
 overlays_path_temp="$ANDROID_BUILD_TOP/overlays_temp"
 overlays_zip_name="arrow_overlays.zip"
 cd $ANDROID_BUILD_TOP
