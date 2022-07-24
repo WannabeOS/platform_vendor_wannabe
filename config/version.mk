@@ -32,7 +32,7 @@ ifeq ($(WANNABE_BETA),true)
 endif
 
 ifeq ($(WANNABE_GAPPS), true)
-    $(call inherit-product, vendor/gapps/common/common-vendor.mk)
+    $(call inherit-product-if-exists, vendor/gms/products/gms.mk)
     WANNABE_BUILD_ZIP_TYPE := GAPPS
 endif
 
